@@ -1,14 +1,14 @@
 <div class="container">
   <div class="header">
     <button class="back-btn" routerLink="/">🏠 Home</button>
-    <h1>🎯 Math Addition Fun!</h1>
-    <p class="subtitle">Let's practice adding numbers together!</p>
+    <h1>🔟 Making 10!</h1>
+    <p class="subtitle">Practice making sums that equal 10!</p>
   </div>
 
   <!-- Question Section -->
-  <div class="problem-display" *ngIf="!showSummary && !showFinalSummary">
+  <div class="problem-display" *ngIf="!showSummary">
     <div *ngIf="!showQuestion" class="start-message">
-      Click "Start!" to begin!
+      Click "Start!" to begin learning how to make 10!
     </div>
     <div *ngIf="showQuestion && currentProblem" class="question">
       <span class="math-problem">{{ currentProblem!.a }} + {{ currentProblem!.b }} = ?</span>
@@ -16,7 +16,7 @@
   </div>
 
   <!-- Answer Options -->
-  <div class="options-section" *ngIf="showQuestion && !showSummary && !showFinalSummary">
+  <div class="options-section" *ngIf="showQuestion && !showSummary">
     <button 
       *ngFor="let option of options"
       class="option-btn"
@@ -31,7 +31,7 @@
   </div>
 
   <!-- Progress -->
-  <div class="progress-section" *ngIf="showQuestion && !showSummary && !showFinalSummary">
+  <div class="progress-section" *ngIf="showQuestion && !showSummary">
     <p>Question {{ currentProblemIndex + 1 }} of {{ questionsPerChapter }}</p>
   </div>
 

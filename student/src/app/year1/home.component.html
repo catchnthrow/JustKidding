@@ -1,0 +1,27 @@
+<div class="home-container">
+  <h1>🌟 Year 1 Math Practice 🌟</h1>
+  <p class="subtitle">Choose a chapter to practice!</p>
+
+  <div class="chapters-grid">
+    <div 
+      *ngFor="let chapter of chapters" 
+      class="chapter-card"
+      [routerLink]="chapter.route">
+      <div class="chapter-icon">{{ chapter.icon }}</div>
+      <h3>Chapter {{ chapter.id }}</h3>
+      <h4>{{ chapter.title }}</h4>
+      <p>{{ chapter.description }}</p>
+      <button class="start-btn">Start Chapter</button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>📚 How it works:</h3>
+    <ul>
+      <li>Each chapter has 25 questions</li>
+      <li>Choose your answer from 4 options</li>
+      <li>Get instant feedback with ✅ or ❌</li>
+      <li>See your results at the end!</li>
+    </ul>
+  </div>
+</div>
