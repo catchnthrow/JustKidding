@@ -1,0 +1,48 @@
+<div class="container">
+  <h1>🎯 Math Addition Fun!</h1>
+  <p class="subtitle">Let's practice adding numbers together!</p>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-number" id="correct-count">0</div>
+      <div class="stat-label">Correct Answers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="total-problems">0</div>
+      <div class="stat-label">Problems Solved</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="current-level">1</div>
+      <div class="stat-label">Current Level</div>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div>Progress: <span id="progress-text">0/100</span></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div class="problem-display" id="problem-display">
+    Click "Next Problem" to start!
+  </div>
+
+  <div class="input-section">
+    <input type="number" class="answer-input" id="answer-input" placeholder="?" min="0" max="18">
+  </div>
+
+  <div class="hint-display" id="hint-display"></div>
+
+  <div class="feedback" id="feedback"></div>
+
+  <div class="celebration" id="celebration">
+    🎉 Fantastic! You're getting faster! 🎉
+  </div>
+
+  <div>
+    <button class="btn btn-check" id="check-btn">Check Answer</button>
+    <button class="btn btn-next" id="next-btn">Next Problem</button>
+    <button class="btn btn-hint" id="hint-btn">Show Hint</button>
+  </div>
+</div>
