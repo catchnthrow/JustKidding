@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global responsive styles for the Math Practice App */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Mobile-first responsive typography */
+html {
+  font-size: 14px; /* Base font size for mobile */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px; /* Larger base for tablets and up */
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px; /* Even larger for desktops */
+  }
+}
+
+/* Ensure content doesn't overflow on small screens */
+.container, .home-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}

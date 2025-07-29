@@ -3,85 +3,215 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em; /* Responsive: will scale with root font-size */
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   text-align: center;
+  padding: 0 10px;
 }
 
 .subtitle {
-  font-size: 1.5em;
-  margin-bottom: 40px;
+  font-size: 1em;
+  margin-bottom: 20px;
   opacity: 0.9;
   text-align: center;
+  padding: 0 10px;
 }
 
 .chapters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-bottom: 40px;
-  max-width: 800px;
+  grid-template-columns: 1fr; /* Single column on mobile */
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px; /* Limit width on mobile */
+  padding: 0 10px;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .home-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+  }
+  
+  .subtitle {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+  }
+  
+  .chapters-grid {
+    grid-template-columns: repeat(2, 1fr); /* Two columns on tablet */
+    gap: 20px;
+    max-width: 600px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3em;
+  }
+  
+  .subtitle {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+  }
+  
+  .chapters-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+    max-width: 800px;
+  }
 }
 
 .chapter-card {
   background: rgba(255, 255, 255, 0.95);
   color: #333;
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: 15px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Larger cards on bigger screens */
+@media (min-width: 768px) {
+  .chapter-card {
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
 }
 
 .chapter-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   background: rgba(255, 255, 255, 1);
 }
 
+@media (min-width: 768px) {
+  .chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+}
+
 .chapter-icon {
-  font-size: 4em;
-  margin-bottom: 15px;
+  font-size: 2.5em; /* Smaller on mobile */
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .chapter-icon {
+    font-size: 3.5em;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapter-icon {
+    font-size: 4em;
+  }
 }
 
 .chapter-card h3 {
   color: #666;
-  font-size: 1.2em;
-  margin-bottom: 10px;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .chapter-card h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapter-card h3 {
+    font-size: 1.2em;
+  }
 }
 
 .chapter-card h4 {
   color: #333;
-  font-size: 1.8em;
-  margin-bottom: 15px;
+  font-size: 1.3em;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .chapter-card h4 {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapter-card h4 {
+    font-size: 1.8em;
+  }
 }
 
 .chapter-card p {
   color: #666;
-  font-size: 1.1em;
-  margin-bottom: 20px;
+  font-size: 0.9em;
+  margin-bottom: 15px;
   line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .chapter-card p {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapter-card p {
+    font-size: 1.1em;
+  }
 }
 
 .start-btn {
   background: #4caf50;
   color: white;
   border: none;
-  padding: 12px 25px;
-  border-radius: 25px;
-  font-size: 1.2em;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 1em;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%; /* Full width on mobile */
+  max-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .start-btn {
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .start-btn {
+    font-size: 1.2em;
+  }
 }
 
 .start-btn:hover {
@@ -91,24 +221,73 @@ h1 {
 
 .info-section {
   background: rgba(255, 255, 255, 0.2);
-  padding: 25px;
-  border-radius: 15px;
+  padding: 15px;
+  border-radius: 10px;
   backdrop-filter: blur(10px);
-  max-width: 600px;
+  max-width: 100%;
   text-align: center;
+  margin: 0 10px;
+}
+
+@media (min-width: 768px) {
+  .info-section {
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .info-section {
+    padding: 25px;
+    max-width: 600px;
+  }
 }
 
 .info-section h3 {
-  font-size: 1.5em;
-  margin-bottom: 15px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .info-section h3 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .info-section h3 {
+    font-size: 1.5em;
+  }
 }
 
 .info-section ul {
   text-align: left;
-  font-size: 1.1em;
-  line-height: 1.6;
+  font-size: 0.9em;
+  line-height: 1.5;
+  padding-left: 20px;
+}
+
+@media (min-width: 768px) {
+  .info-section ul {
+    font-size: 1em;
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 1024px) {
+  .info-section ul {
+    font-size: 1.1em;
+  }
 }
 
 .info-section li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+}
+
+@media (min-width: 768px) {
+  .info-section li {
+    margin-bottom: 8px;
+  }
 }
