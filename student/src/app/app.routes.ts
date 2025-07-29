@@ -12,5 +12,9 @@ export const routes: Routes = [
   {
     path: 'making-ten-chapter',
     loadComponent: () => import('./year1/making-ten-chapter.component').then(m => m.MakingTenChapterComponent)
+  },
+  {
+    path: 'number-pairs-chapter',
+    loadComponent: () => import('./year1/number-pairs-chapter.component').then(m => m.NumberPairsChapterComponent)
   }
 ];

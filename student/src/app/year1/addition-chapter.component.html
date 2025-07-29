@@ -1,24 +1,22 @@
 <div class="container">
   <div class="header">
     <button class="back-btn" routerLink="/">🏠 Home</button>
-    <h1>🎯 Math Addition Fun!</h1>
-    <p class="subtitle">Let's practice adding numbers together!</p>
   </div>
 
   <!-- Question Section -->
-  <div class="problem-display" *ngIf="!showSummary && !showFinalSummary">
+  <div class="problem-display" *ngIf="!showSummary">
     <div *ngIf="!showQuestion" class="start-message">
       Click "Start!" to begin!
     </div>
-    <div *ngIf="showQuestion && currentProblem" class="question">
-      <span class="math-problem">{{ currentProblem!.a }} + {{ currentProblem!.b }} = ?</span>
+    <div *ngIf="showQuestion && currentQuestion" class="question">
+      <span class="math-problem">{{ currentQuestion.firstNumber }} + {{ currentQuestion.secondNumber }} = ?</span>
     </div>
   </div>
 
   <!-- Answer Options -->
-  <div class="options-section" *ngIf="showQuestion && !showSummary && !showFinalSummary">
+  <div class="options-section" *ngIf="showQuestion && !showSummary">
     <button 
-      *ngFor="let option of options"
+      *ngFor="let option of currentQuestion?.options"
       class="option-btn"
       [class.correct]="isCorrectAnswer(option)"
       [class.wrong]="isWrongAnswer(option)"
@@ -31,20 +29,28 @@
   </div>
 
   <!-- Progress -->
-  <div class="progress-section" *ngIf="showQuestion && !showSummary && !showFinalSummary">
-    <p>Question {{ currentProblemIndex + 1 }} of {{ questionsPerChapter }}</p>
+  <div class="progress-section" *ngIf="showQuestion && !showSummary">
+    <p>Question {{ currentQuestionIndex + 1 }} of {{ questionsPerChapter }}</p>
   </div>
 
   <!-- Summary Section -->
   <div class="summary" *ngIf="showSummary">
-    <h2>🎉 Chapter Complete!</h2>
+    <h2>Summary</h2>
     <div [innerHTML]="celebrationHtml"></div>
-    <p class="summary-stats">
-      You got {{ correctCount }} out of {{ questionsPerChapter }} correct!
-    </p>
-    <p class="summary-percentage">
-      That's {{ (correctCount / questionsPerChapter * 100) | number:'1.0-0' }}%!
-    </p>
+    <div class="simple-results">
+      <div class="result-item correct-result">
+        <span class="result-number">{{ correctCount }}</span>
+        <span class="result-label">correct ✅</span>
+      </div>
+      <div class="result-item wrong-result">
+        <span class="result-number">{{ questionsPerChapter - correctCount }}</span>
+        <span class="result-label">wrong ❌</span>
+      </div>
+    </div>
+    <div class="timer-result" *ngIf="timeSpent">
+      <span class="timer-icon">⏱️</span>
+      <span class="timer-text">You took {{ timeSpent }}</span>
+    </div>
     <div class="summary-buttons">
       <button class="btn" (click)="resetQuiz()">Practice Again</button>
       <button class="btn" routerLink="/">Back to Home</button>

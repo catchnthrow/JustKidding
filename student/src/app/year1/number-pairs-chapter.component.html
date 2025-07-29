@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="header">
+    <button class="back-btn" routerLink="/">🏠 Home</button>
+  </div>
+
+  <!-- Current Problem Display -->
+  <div class="problem-section">
+    <div class="problem-display">
+      <span class="math-problem">
+        {{ currentFirst }} + <span class="blank">?</span> = 10
+      </span>
+    </div>
+  </div>
+
+  <!-- Visual Unicorns Row -->
+  <div class="visual-section">
+    <div class="unicorns-row">
+      <div 
+        *ngFor="let topNum of topNumbers; let i = index" 
+        class="unicorn-block"
+        [class.highlighted]="isHighlighted(i)"
+        [class.discovered]="isPairDiscovered(topNum, bottomNumbers[i])">
+        <span class="top-number">{{ topNum }}</span>
+        <div class="unicorn">🦄</div>
+        <span class="bottom-number">{{ bottomNumbers[i] }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Answer Selection Area -->
+  <div class="answer-section">
+    <h3>Choose your answer:</h3>
+    <div class="answer-options">
+      <button 
+        *ngFor="let option of answerOptions" 
+        class="answer-btn"
+        [class.selected]="userAnswer === option"
+        [class.correct]="showFeedback && isCorrect && userAnswer === option"
+        [class.incorrect]="showFeedback && !isCorrect && userAnswer === option"
+        (click)="selectNumber(option)">
+        {{ option }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Feedback Section -->
+  <div class="feedback-section" *ngIf="showFeedback">
+    <div class="feedback-message" [class.success]="isCorrect" [class.error]="!isCorrect">
+      <p>{{ feedbackMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Physical Activity Prompt -->
+  <div class="physical-activity" *ngIf="showPhysicalActivity">
+    <div class="activity-card">
+      <h3>🏃‍♀️ Let's Move!</h3>
+      <p>{{ physicalActivity }}</p>
+      <button class="dismiss-btn" (click)="dismissPhysicalActivity()">Done! ✅</button>
+    </div>
+  </div>
+
+  <!-- Discovered Pairs Display -->
+  <div class="discovered-section" *ngIf="discoveredPairs.length > 0">
+    <h3>🌟 Pairs You've Discovered!</h3>
+    <div class="pairs-grid">
+      <div 
+        *ngFor="let pair of discoveredPairs" 
+        class="pair-card"
+        [class.latest]="animatingPair && pair.first === animatingPair.first">
+        <span>{{ pair.first }} + {{ pair.second }} = 10</span>
+        <div class="pair-celebration">🎉</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Celebration for All Pairs Found -->
+  <div class="completion-celebration" *ngIf="discoveredPairs.length === 9">
+    <div class="celebration-content">
+      <h2>🎊 AMAZING! 🎊</h2>
+      <p>You found ALL the pairs that make 10!</p>
+      <p>You're a Number Pairs Champion! 👑</p>
+      <div class="celebration-animation">
+        <span class="float-emoji">⭐</span>
+        <span class="float-emoji">🌟</span>
+        <span class="float-emoji">✨</span>
+        <span class="float-emoji">🎉</span>
+        <span class="float-emoji">🎈</span>
+      </div>
+      <button class="restart-btn" (click)="resetGame()">
+        Play Again! 🔄
+      </button>
+    </div>
+  </div>
+</div>

@@ -24,6 +24,13 @@ export class HomeComponent {
       description: 'Learn to make sums that equal 10',
       route: '/making-ten-chapter',
       icon: '🔟'
+    },
+    {
+      id: 3,
+      title: 'Number Pairs to 10',
+      description: 'Discover all pairs that make 10 with fun activities!',
+      route: '/number-pairs-chapter',
+      icon: '👫'
     }
   ];
 }

@@ -1,8 +1,6 @@
 <div class="container">
   <div class="header">
     <button class="back-btn" routerLink="/">🏠 Home</button>
-    <h1>🔟 Making 10!</h1>
-    <p class="subtitle">Practice making sums that equal 10!</p>
   </div>
 
   <!-- Question Section -->
@@ -11,7 +9,12 @@
       Click "Start!" to begin learning how to make 10!
     </div>
     <div *ngIf="showQuestion && currentProblem" class="question">
-      <span class="math-problem">{{ currentProblem!.a }} + {{ currentProblem!.b }} = ?</span>
+      <span class="math-problem" *ngIf="currentProblem.showFirst">
+        {{ currentProblem.firstNumber }} + <span class="blank">_</span> = 10
+      </span>
+      <span class="math-problem" *ngIf="!currentProblem.showFirst">
+        <span class="blank">_</span> + {{ currentProblem.firstNumber }} = 10
+      </span>
     </div>
   </div>
 
@@ -37,14 +40,22 @@
 
   <!-- Summary Section -->
   <div class="summary" *ngIf="showSummary">
-    <h2>🎉 Chapter Complete!</h2>
+    <h2>Summary</h2>
     <div [innerHTML]="celebrationHtml"></div>
-    <p class="summary-stats">
-      You got {{ correctCount }} out of {{ questionsPerChapter }} correct!
-    </p>
-    <p class="summary-percentage">
-      That's {{ (correctCount / questionsPerChapter * 100) | number:'1.0-0' }}%!
-    </p>
+    <div class="simple-results">
+      <div class="result-item correct-result">
+        <span class="result-number">{{ correctCount }}</span>
+        <span class="result-label">correct ✅</span>
+      </div>
+      <div class="result-item wrong-result">
+        <span class="result-number">{{ questionsPerChapter - correctCount }}</span>
+        <span class="result-label">wrong ❌</span>
+      </div>
+    </div>
+    <div class="timer-result" *ngIf="timeSpent">
+      <span class="timer-icon">⏱️</span>
+      <span class="timer-text">You took {{ timeSpent }}</span>
+    </div>
     <div class="summary-buttons">
       <button class="btn" (click)="resetQuiz()">Practice Again</button>
       <button class="btn" routerLink="/">Back to Home</button>
