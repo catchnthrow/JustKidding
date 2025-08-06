@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/css/*", "/*.{js,css,ico,png,jpg,gif,svg}"]
+    "exclude": ["/assets/*", "/*.{js,css,ico,png,jpg,gif,svg,woff,woff2}"]
   },
   "responseOverrides": {
     "404": {
@@ -11,5 +11,11 @@
   },
   "platform": {
     "apiRuntime": "node:20"
-  }
+  },
+  "routes": [
+    {
+      "route": "/*",
+      "rewrite": "/index.html"
+    }
+  ]
 }
