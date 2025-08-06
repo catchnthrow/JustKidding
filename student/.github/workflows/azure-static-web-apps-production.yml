@@ -1,14 +1,14 @@
 name: Azure Static Web Apps PRODUCTION Workflow
-description: Build and deploy Angular app to Azure Static Web Apps on push to prod branch or PR
+description: Build and deploy Angular app to Azure Static Web Apps on push to main branch or PR
 
 on:
   push:
     branches:
-      - prod
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - prod
+      - main
 
 jobs:
   build_and_deploy_job:
