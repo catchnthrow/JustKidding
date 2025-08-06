@@ -1,4 +1,5 @@
-name: Azure Static Web Apps CI/CD
+name: Azure Static Web Apps PRODUCTION Workflow
+description: Build and deploy Angular app to Azure Static Web Apps on push to prod branch or PR
 
 on:
   push:
