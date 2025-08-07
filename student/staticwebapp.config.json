@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.{js,css,ico,png,jpg,gif,svg,woff,woff2}"]
+    "exclude": ["/assets/*", "/*.{js,css,ico,png,jpg,gif,svg,woff,woff2}", "/chunk-*.js", "/main-*.js", "/polyfills-*.js", "/styles-*.css"]
   },
   "responseOverrides": {
     "404": {
@@ -12,10 +12,7 @@
   "platform": {
     "apiRuntime": "node:20"
   },
-  "routes": [
-    {
-      "route": "/*",
-      "rewrite": "/index.html"
-    }
-  ]
+  "mimeTypes": {
+    ".js": "text/javascript"
+  }
 }
