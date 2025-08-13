@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MathService, MathQuestion, MathServiceConfig, PerformanceTracker } from '../services/math.service';
+import { MathService, MathQuestion, MathServiceConfig, PerformanceTracker } from '../../shared/services/math.service';
 
 @Component({
   selector: 'app-addition-chapter',
   templateUrl: './addition-chapter.component.html',
   styleUrls: ['./addition-chapter.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule],
+  providers: [MathService]
 })
 export class AdditionChapterComponent implements OnInit {
   questions: MathQuestion[] = [];
