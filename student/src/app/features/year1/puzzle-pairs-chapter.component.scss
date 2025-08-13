@@ -1,0 +1,609 @@
+// Import shared feedback animations
+@use '../../shared/styles/feedback-animations' as *;
+
+.puzzle-pairs-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background: #45a049;
+    }
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .instruction {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 10px 0;
+  }
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  
+  .progress {
+    flex: 1;
+    
+    span {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 1.1rem;
+    }
+    
+    .progress-bar {
+      width: 300px;
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 8px;
+      
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4CAF50, #8BC34A);
+        transition: width 0.5s ease;
+      }
+    }
+  }
+  
+  .score {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #9C27B0;
+    padding: 10px 20px;
+    background: rgba(156, 39, 176, 0.1);
+    border-radius: 8px;
+  }
+}
+
+.game-area {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.question-section {
+  text-align: center;
+  padding: 30px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  
+  h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+}
+
+.question-tile-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  
+  .plus-sign, .equals-sign {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .result {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    min-width: 60px;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 12px;
+  }
+}
+
+/* Simple Square Tile Styles with Color-based Logic */
+.puzzle-tile {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 4px solid #333;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  
+  .tile-number {
+    font-size: 3rem;
+    font-weight: bold;
+    z-index: 2;
+    position: relative;
+  }
+  
+  &.question-tile {
+    border-color: #2196F3;
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
+    
+    &.attempting-fit {
+      animation: pulse 1s ease-in-out infinite;
+    }
+    
+    &.fit-success {
+      border-color: #4CAF50;
+      box-shadow: 0 8px 16px rgba(76, 175, 80, 0.4);
+      transform: scale(1.05);
+    }
+  }
+  
+  &.selected {
+    transform: scale(1.1);
+    border-color: #FFD700;
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+    filter: brightness(1.2);
+  }
+  
+  &.rejected {
+    animation: reject 0.6s ease-in-out;
+    border-color: #f44336;
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  }
+  
+  &:hover:not(.question-tile):not(.selected) {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+  }
+}
+
+/* Color patterns for number pairs that make 10 */
+/* Number 1 - Red (pairs with 9) */
+[data-pattern="red"] {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+}
+
+/* Number 2 - Orange (pairs with 8) */
+[data-pattern="orange"] {
+  background: linear-gradient(135deg, #dd6b20, #c05621);
+}
+
+/* Number 3 - Yellow (pairs with 7) */
+[data-pattern="yellow"] {
+  background: linear-gradient(135deg, #d69e2e, #b7791f);
+}
+
+/* Number 4 - Green (pairs with 6) */
+[data-pattern="green"] {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+}
+
+/* Number 5 - Blue (pairs with 5) */
+[data-pattern="blue"] {
+  background: linear-gradient(135deg, #3182ce, #2c5aa0);
+}
+
+/* Number 6 - Green (pairs with 4) */
+[data-pattern="green"] {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+}
+
+/* Number 7 - Yellow (pairs with 3) */
+[data-pattern="yellow"] {
+  background: linear-gradient(135deg, #d69e2e, #b7791f);
+}
+
+/* Number 8 - Orange (pairs with 2) */
+[data-pattern="orange"] {
+  background: linear-gradient(135deg, #dd6b20, #c05621);
+}
+
+/* Number 9 - Red (pairs with 1) */
+[data-pattern="red"] {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+}
+
+/* Special styling for numbers that don't make 10 */
+[data-pattern="gray"] {
+  background: linear-gradient(135deg, #718096, #4a5568);
+}
+
+[data-pattern="purple"] {
+  background: linear-gradient(135deg, #805ad5, #6b46c1);
+}
+
+[data-pattern="pink"] {
+  background: linear-gradient(135deg, #d53f8c, #b83280);
+}
+
+[data-pattern="teal"] {
+  background: linear-gradient(135deg, #319795, #2c7a7b);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes reject {
+  0%, 100% { transform: translateX(0) scale(1); }
+  25% { transform: translateX(-10px) scale(0.95); }
+  75% { transform: translateX(10px) scale(0.95); }
+}
+
+.fit-zone {
+  width: 120px;
+  height: 120px;
+  border: 4px dashed #bbb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.5);
+  position: relative;
+  transition: all 0.4s ease;
+  
+  .placeholder {
+    font-size: 3rem;
+    color: #ccc;
+    font-weight: bold;
+  }
+  
+  &.attempting {
+    border-color: #ff9800;
+    background: rgba(255, 152, 0, 0.1);
+    animation: attempting 1s ease-in-out infinite;
+  }
+  
+  &.success {
+    border-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.2);
+    border-style: solid;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  }
+  
+  &.fail {
+    border-color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+    animation: shake 0.6s ease-in-out;
+  }
+}
+
+@keyframes attempting {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.fitted-tile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  position: relative;
+  
+  .tile-number {
+    font-size: 2.8rem;
+    font-weight: bold;
+    z-index: 2;
+  }
+}
+
+.answer-section {
+  text-align: center;
+  
+  h3 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+}
+
+.answer-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-items: center;
+}
+
+.selected-info {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(33, 150, 243, 0.1);
+  border-radius: 12px;
+  border: 2px solid rgba(33, 150, 243, 0.3);
+  
+  p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    
+    .color-indicator {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      margin-left: 5px;
+      vertical-align: middle;
+      border: 2px solid #333;
+    }
+  }
+}
+
+.fit-btn {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  animation: pulse-button 2s ease-in-out infinite;
+}
+
+@keyframes pulse-button {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.feedback {
+  margin-top: 20px;
+  
+  .success-message, .fail-message {
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      margin: 5px 0;
+      font-size: 1.1rem;
+    }
+  }
+  
+  .success-message {
+    background: rgba(76, 175, 80, 0.1);
+    border: 2px solid #4CAF50;
+    color: #2e7d32;
+    
+    .icon {
+      color: #4CAF50;
+    }
+  }
+  
+  .fail-message {
+    background: rgba(244, 67, 54, 0.1);
+    border: 2px solid #f44336;
+    color: #c62828;
+    
+    .icon {
+      color: #f44336;
+    }
+  }
+}
+
+.results-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  
+  .results-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 100%;
+    
+    .celebration-icon, .fail-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      animation: bounce 1s ease-in-out infinite;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .final-score {
+      margin: 30px 0;
+      
+      p {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+      }
+      
+      .score-percentage {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #4CAF50;
+      }
+    }
+    
+    .learning-summary {
+      margin: 30px 0;
+      text-align: left;
+      
+      .pairs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+        
+        .pair {
+          padding: 10px;
+          background: rgba(76, 175, 80, 0.1);
+          border-radius: 8px;
+          text-align: center;
+          font-weight: bold;
+          color: #2e7d32;
+        }
+      }
+    }
+    
+    .results-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &.primary {
+    background: #4CAF50;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+  }
+  
+  &.secondary {
+    background: #f0f0f0;
+    color: #333;
+    border: 2px solid #ddd;
+    
+    &:hover:not(:disabled) {
+      background: #e0e0e0;
+      border-color: #bbb;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .puzzle-pairs-container {
+    padding: 15px;
+  }
+  
+  .question-tile-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .puzzle-tile {
+    width: 100px;
+    height: 100px;
+    
+    .tile-number {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .fit-zone {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .answer-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 300px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .game-info {
+    flex-direction: column;
+    gap: 15px;
+    
+    .progress {
+      text-align: center;
+      
+      .progress-bar {
+        width: 100%;
+      }
+    }
+  }
+}

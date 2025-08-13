@@ -1,0 +1,107 @@
+<div class="puzzle-pairs-container">
+  <div class="header">
+    <button class="back-btn" routerLink="/" aria-label="Go back to Year 1 home">
+      ← Back to Year 1
+    </button>
+    <h1>🧩 Color Pairs Challenge</h1>
+    <p class="instruction">Click on the tile with the same color that adds up to 10!</p>
+  </div>
+
+  <div class="game-info">
+    <div class="progress">
+      <span>Question {{ questionIndex + 1 }} of {{ totalQuestions }}</span>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+    </div>
+    <div class="score">Score: {{ score }} / {{ totalQuestions }}</div>
+  </div>
+
+  <!-- Game Area -->
+  <div class="game-area" *ngIf="currentQuestion && !showResult">
+    <!-- Question Section -->
+    <div class="question-section">
+      <h2>Click the tile with the same color that adds up to 10!</h2>
+      <div class="question-tile-container">
+        <div 
+          [class]="getQuestionTileClasses()" 
+          [attr.data-pattern]="currentQuestion.questionTile.colorPattern"
+        >
+          <div class="tile-number">{{ currentQuestion.questionTile.number }}</div>
+        </div>
+        <span class="plus-sign">+</span>
+        <div class="fit-zone" [class.attempting]="attemptingFit" [class.success]="fitResult === 'success'" [class.fail]="fitResult === 'fail'">
+          <div *ngIf="!selectedTile" class="placeholder">?</div>
+          <div *ngIf="selectedTile" class="fitted-tile" 
+               [class]="getTileClasses(selectedTile)" 
+               [attr.data-pattern]="selectedTile.colorPattern">
+            <div class="tile-number">{{ selectedTile.number }}</div>
+          </div>
+        </div>
+        <span class="equals-sign">=</span>
+        <div class="result">{{ (currentQuestion.questionTile.number + (selectedTile?.number || 0)) || '10' }}</div>
+      </div>
+    </div>
+
+    <!-- Answer Options -->
+    <div class="answer-section">
+      <h3>Click a tile to see if it matches:</h3>
+      <div class="answer-options">
+        <div 
+          *ngFor="let option of currentQuestion.answerOptions" 
+          [class]="getTileClasses(option)"
+          [class.feedback-correct]="isCorrectAnswer(option)"
+          [class.feedback-wrong]="isWrongAnswer(option)"
+          (click)="selectAnswerTile(option)"
+          [attr.data-pattern]="option.colorPattern"
+          [class.disabled]="answered"
+        >
+          <div class="tile-number">{{ option.number }}</div>
+          <span *ngIf="isCorrectAnswer(option)" class="feedback-icon">✅</span>
+          <span *ngIf="isWrongAnswer(option)" class="feedback-icon">❌</span>
+        </div>
+      </div>
+
+      <!-- Remove the selected-info section and fit button since we don't need them anymore -->
+
+      <!-- Processing Message -->
+      <div class="processing-info" *ngIf="fitResult === 'success' && processingAnswer">
+        <div class="success-message">
+          <div class="icon">✓</div>
+          <p><strong>Perfect match!</strong> {{ currentQuestion.questionTile.number }} + {{ selectedTile?.number }} = 10</p>
+          <p>Moving to next question...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Screen -->
+  <div class="results-screen" *ngIf="showResult">
+    <div class="results-content">
+      <div class="celebration-icon" *ngIf="showCelebration">🎉</div>
+      <div class="fail-icon" *ngIf="!showCelebration">😔</div>
+      
+      <h2 *ngIf="showCelebration">Outstanding Puzzle Master!</h2>
+      <h2 *ngIf="!showCelebration">Keep Practicing!</h2>
+      
+      <div class="final-score">
+        <p>Your Score: <strong>{{ score }} / {{ totalQuestions }}</strong></p>
+        <div class="score-percentage">{{ Math.round((score / totalQuestions) * 100) }}%</div>
+      </div>
+
+      <div class="learning-summary" *ngIf="showCelebration">
+        <p>🧩 You've mastered these puzzle pairs that make 10:</p>
+        <div class="pairs-grid">
+          <div class="pair" *ngFor="let pair of [[1,9], [2,8], [3,7], [4,6], [5,5]]">
+            {{ pair[0] }} + {{ pair[1] }} = 10
+          </div>
+        </div>
+      </div>
+
+      <div class="results-buttons">
+        <button class="btn primary" (click)="resetGame()">Play Again</button>
+        <button class="btn secondary" routerLink="/">Back to Home</button>
+      </div>
+    </div>
+  </div>
+</div>

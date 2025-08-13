@@ -8,8 +8,7 @@ import { MathService, MathQuestion, MathServiceConfig, PerformanceTracker } from
   templateUrl: './addition-chapter.component.html',
   styleUrls: ['./addition-chapter.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  providers: [MathService]
+  imports: [CommonModule, RouterModule]
 })
 export class AdditionChapterComponent implements OnInit {
   questions: MathQuestion[] = [];

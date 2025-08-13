@@ -31,6 +31,13 @@ export class HomeComponent {
       description: 'Discover all pairs that make 10 with fun activities!',
       route: '/number-pairs-chapter',
       icon: '👫'
+    },
+    {
+      id: 4,
+      title: 'Color Pairs Challenge',
+      description: 'Match tiles with the same color that add up to 10!',
+      route: '/puzzle-pairs-chapter',
+      icon: '🧩'
     }
   ];
 }
